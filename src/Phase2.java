@@ -23,9 +23,13 @@ public class Phase2 {
         totalCells = x * y * z;
         int maxAllowedTime = Math.min(Math.max(Math.max(x, y), z), totalCells);
 
+
         if (n == 0) {
             System.out.println(0);
-            System.exit(0);
+            return;        }
+        if(totalCells==0) {
+            System.out.println(0);
+            return;
         }
 
         grid = new int[totalCells];
@@ -47,7 +51,22 @@ public class Phase2 {
                 }
             }
         }
+
         List<Position> startPos = getStartPositions(n);
+        boolean isAllOne = true;
+        if(grid!=null) {
+            for (int k : grid) {
+                if (k != 1) {
+                    isAllOne = false;
+                    break;
+                }
+            }
+        }
+        if(isAllOne){
+            if(n>=x){
+            System.out.println(totalCells);
+                return;}
+        }
 
 //        if (n >= allCoins.size() && allCoinsReachable(startPos, allCoins, maxAllowedTime)) {
 //            System.out.println(allCoins.size());
@@ -92,7 +111,7 @@ public class Phase2 {
                 }
 
                 System.out.println(result);
-                System.exit(0);
+                return;
             }
         }
 
@@ -105,42 +124,42 @@ public class Phase2 {
 
         if (allCoins.size() == 0) {
             System.out.println(0);
-            System.exit(0);
+            return;
         }
 
-        if (n >= allCoins.size()) {
+        if (n >= allCoins.size()) {//todo
             System.out.println(allCoins.size());
-            System.exit(0);
+            return;
         }
 
 
-        if (allCoins.size() <= 2) {
-            PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-            for (int i = 0; i < startPos.size(); i++) {
-                for (int j = 0; j < allCoins.size(); j++) {
-                    int distance = Math.abs(startPos.get(i).x - allCoins.get(j).x) +
-                            Math.abs(startPos.get(i).y - allCoins.get(j).y) +
-                            Math.abs(startPos.get(i).z - allCoins.get(j).z);
-                    if (distance <= maxAllowedTime) {
-                        heap.offer(new int[]{distance, i, j});
-                    }
-                }
-            }
-            boolean[] usedRobots = new boolean[startPos.size()];
-            boolean[] usedCoins = new boolean[allCoins.size()];
-            int maxCollected = 0;
-            while (!heap.isEmpty()) {
-                int[] entry = heap.poll();
-                int robotIdx = entry[1], coinIdx = entry[2];
-                if (!usedRobots[robotIdx] && !usedCoins[coinIdx]) {
-                    usedRobots[robotIdx] = true;
-                    usedCoins[coinIdx] = true;
-                    maxCollected++;
-                }
-            }
-            System.out.println(maxCollected);
-            System.exit(0);
-        }
+//        if (allCoins.size() <= 2) {
+//            PriorityQueue<int[]> heap = new PriorityQueue<>();
+//            for (int i = 0; i < startPos.size(); i++) {
+//                for (int j = 0; j < allCoins.size(); j++) {
+//                    int distance = Math.abs(startPos.get(i).x - allCoins.get(j).x) +
+//                            Math.abs(startPos.get(i).y - allCoins.get(j).y) +
+//                            Math.abs(startPos.get(i).z - allCoins.get(j).z);
+//                    if (distance <= maxAllowedTime) {
+//                        heap.offer(new int[]{distance, i, j});
+//                    }
+//                }
+//            }
+//            boolean[] usedRobots = new boolean[startPos.size()];
+//            boolean[] usedCoins = new boolean[allCoins.size()];
+//            int maxCollected = 0;
+//            while (!heap.isEmpty()) {
+//                int[] entry = heap.poll();
+//                int robotIdx = entry[1], coinIdx = entry[2];
+//                if (!usedRobots[robotIdx] && !usedCoins[coinIdx]) {
+//                    usedRobots[robotIdx] = true;
+//                    usedCoins[coinIdx] = true;
+//                    maxCollected++;
+//                }
+//            }
+//            System.out.println(maxCollected);
+//            return;
+//        }
 
         boolean farApart = true;
         for (int i = 0; i < allCoins.size(); i++) {
@@ -156,7 +175,7 @@ public class Phase2 {
             if (!farApart) break;
         }
         if (farApart && allCoins.size() <= 10) {
-            PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+            PriorityQueue<int[]> heap = new PriorityQueue<>();
             for (int i = 0; i < startPos.size(); i++) {
                 for (int j = 0; j < allCoins.size(); j++) {
                     int distance = Math.abs(startPos.get(i).x - allCoins.get(j).x) +
@@ -180,7 +199,7 @@ public class Phase2 {
                 }
             }
             System.out.println(maxCollected);
-            System.exit(0);
+            return;
         }
 
         boolean allClose = true;
@@ -220,7 +239,7 @@ public class Phase2 {
                 }
             }
             System.out.println(maxCollected);
-            System.exit(0);
+            return;
         }
 
         BitSet initialCollected = new BitSet(allCoins.size());
